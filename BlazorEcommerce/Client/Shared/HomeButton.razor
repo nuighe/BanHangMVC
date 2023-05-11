@@ -1,0 +1,15 @@
+﻿@inject NavigationManager NavigationManager
+
+<div @onclick="GoToHome" style="width:100%">
+    <h3 style="float: left; font-family: 'Quicksand', sans-serif;">
+        <img class="d-block w-100" src="Images/logogreen.png" style="padding-top: 10px; height: 70px">
+    </h3>
+    
+</div>
+
+@code {
+    private void GoToHome()
+    {
+        NavigationManager.NavigateTo("");
+    }
+}

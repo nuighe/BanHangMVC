@@ -1,0 +1,145 @@
+﻿@inject IProductService ProductService
+@inject ICategoryService CategoryService
+@implements IDisposable
+
+@if (ProductService.Products == null || ProductService.Products.Count == 0)
+{
+    <span>@ProductService.Message</span>
+    
+}
+else
+{
+    <ul class="list-unstyled">
+        <!--get list product-->
+        @foreach (var product in ProductService.Products)
+        {
+            <li class="media my-3">
+                <div class="media-img-wrapper mr-2">
+                    <a href="/product/@product.Id">
+                        <!--lay dia chi nha-->
+                        @if (!string.IsNullOrEmpty(product.ImageUrl))
+                        {
+                            <img class="media-img" src="@product.ImageUrl" alt="@product.Title" />
+                        }
+                        else if (product.Images.Count > 0)
+                        {
+                            <img class="media-img" src="@product.Images[0].Data" alt="@product.Title" />
+                        }
+                    </a>
+                </div>
+                <div class="media-body">
+                    <a href="/product/@product.Id">
+                        <h4 class="mb-0">@product.Title</h4>
+                    </a>
+                    <p>@product.Description</p>
+                    <h5 class="price">
+                        @GetPriceText(product)
+                    </h5>
+                    
+                    
+
+                </div>
+              
+            </li>
+        }
+    </ul>
+    for (var i = 1; i <= ProductService.PageCount; i++)
+    {
+        <a class="btn
+                 @(i == ProductService.CurrentPage ? "btn-info" : "btn-outline-info")
+                 page-selection"
+           href="/search/@ProductService.LastSearchText/@i">@i</a>
+    }
+    <!--get list product-->
+    <!-- Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted" style="margin-top: 3rem">
+        <!-- Section: Links  -->
+        <section class="">
+            <div class="container text-center text-md-start mt-5">
+                <!-- Grid row -->
+                <div class="row mt-3" style="padding-top: 12px">
+                    <!-- Grid column -->
+                    <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                        <!-- Content -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            <i class="fas fa-gem me-3"></i>Green Phone
+                        </h6>
+                        <p>
+                            Green Phone - Cửa hàng thiết bị điện tử, là sự lựa chọn hàng đầu cho người dùng. Chúng tôi luôn luôn cố gắng mang lại chất lượng sản phẩm tốt nhất cho người dùng.
+                        </p>
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class=" col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Danh mục sản phẩm
+                        </h6>
+                        @foreach (var category in CategoryService.Categories)
+                        {
+                            <p>
+                                <NavLink class="text-reset" href="@category.Url">
+                                    @category.Name
+                                </NavLink>
+                            </p>
+                        }
+                    </div>
+                    <!-- Grid column -->
+                    <!-- Grid column -->
+                    <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                        <!-- Links -->
+                        <h6 class="text-uppercase fw-bold mb-4">
+                            Green Phone
+                        </h6>
+                        <p><i class="fas fa-home me-3"></i>Địa chỉ: Quận 10, TP Hồ Chí Minh</p>
+                        <p><i class="fas fa-envelope me-3"></i>Gmail: greenphone@gmail.com</p>
+                        <p><i class="fas fa-phone me-3"></i>Số điện thoại: 0989999999</p>
+                        <p><i class="fas fa-print me-3"></i>Số điện thoại: 0899999999</p>
+                    </div>
+                    <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+            </div>
+        </section>
+        <!-- Section: Links  -->
+    </footer>
+    <!-- Footer -->
+
+}
+
+@code {
+    protected override void OnInitialized()
+    {
+        ProductService.ProductsChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ProductService.ProductsChanged -= StateHasChanged;
+    }
+
+    private string GetPriceText(Product product)
+    {
+        var variants = product.Variants;
+        // var variants = (string.Format("{0:#,##0}", product.Variants));
+        if (variants.Count == 0)
+        {
+            return string.Empty;
+        }
+        else if (variants.Count == 1)
+        {
+            var price = string.Format("{0:0,0 đ}", variants[0].Price);
+            //return $"{variants[0].Price} đ";
+            return $"{price}";
+
+     
+        }
+        //decimal minPrice = variants.Min(v => v.Price);
+        //return $"Chỉ từ {minPrice}";
+
+        decimal minPrice = variants.Min(v => v.Price);
+        string formattedPrice = string.Format("{0:0,0 đ}", minPrice);
+        return $"Chỉ từ {formattedPrice}";
+    }
+
+}

@@ -1,0 +1,82 @@
+﻿@inject IAddressService AddressService
+
+@if (address == null)
+{
+    <span>
+        Bạn chưa chỉ định địa chỉ giao hàng.
+        <button class="btn" @onclick="InitAddress">Thêm địa chỉ?</button>
+    </span>
+}
+else if (!editAddress)
+{
+    <p>
+        <span>Họ và tên: @address.FirstName @address.LastName</span><br />
+        <span>Đường:     @address.Street</span><br />
+        <span>Phường:    @address.Ward</span><br />
+        <span>Quận:      @address.District</span><br />
+        <span>Thành phố: @address.City</span><br />
+        <span>Quốc gia:  @address.Country</span><br />
+    </p>
+    <button class="btn btn-primary" @onclick="EditAddress">Edit</button>
+}
+else
+{
+    <EditForm Model="address" OnSubmit="SubmitAddress">
+        <div class="mb-3">
+            <label for="firstname">First Name</label>
+            <InputText id="firstname" @bind-Value="address.FirstName" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="lastname">Last Name</label>
+            <InputText id="lastname" @bind-Value="address.LastName" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="street">Street</label>
+            <InputText id="street" @bind-Value="address.Street" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="ward">Ward</label>
+            <InputText id="ward" @bind-Value="address.Ward" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="district">District</label>
+            <InputText id="district" @bind-Value="address.District" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="city">City</label>
+            <InputText id="city" @bind-Value="address.City" class="form-control" />
+        </div>
+        <div class="mb-3">
+            <label for="country">Country</label>
+            <InputText id="country" @bind-Value="address.Country" class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </EditForm>
+}
+
+@code {
+    Address address = null;
+    bool editAddress = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        address = await AddressService.GetAddress();
+    }
+
+    private async Task SubmitAddress()
+    {
+        editAddress = false;
+        address = await AddressService.AddOrUpdateAddress(address);
+    }
+
+    private void InitAddress()
+    {
+        address = new Address();
+        editAddress = true;
+    }
+
+    private void EditAddress()
+    {
+        editAddress = true;
+    }
+}

@@ -1,0 +1,250 @@
+﻿@inject IProductService ProductService
+@inject ICategoryService CategoryService
+@implements IDisposable
+
+<div class="container-xl">
+        <div class="row">
+      <div class="col-8">
+          <img class="d-block w-100" src="Images/Mac0.jpg" style="height: 340px">
+      </div>
+  <div class="col-4">
+      <img class="d-block w-100" src="Images/dienthoai846x250.jpg" style="height: 200px">
+      <img class="d-block w-100" src="Images/dongho846x250.jpg" style="margin-top: 17.07px">
+  </div>
+</div>
+        
+        </div>
+
+<center><h2 style="margin-top: 5rem; margin-bottom: 5rem">Sản phẩm bán chạy</h2></center>
+@if (ProductService.Products == null || ProductService.Products.Count == 0)
+{
+    <span>@ProductService.Message</span>
+}
+else
+{
+
+    <div class="container">
+            <div class="row">
+                    @foreach (var product in ProductService.Products)
+                        {
+                            @if (product.Featured)
+                            {
+                <div class="col" style="margin-top: 2rem">
+                    <div>
+                        <a href="product/@product.Id">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img class="img-products" src="@product.ImageUrl">
+                            }
+                            else if (product.Images.Count > 0)
+                            {
+                                <img class="img-products" src="@product.Images[0].Data" />
+                            }
+                        </a>
+                    </div>
+                    <h6><a href="product/@product.Id">@product.Title</a></h6>
+                    @if (product.Variants != null && product.Variants.Count > 0)
+                    {
+                        <h5 class="rating">
+
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star "></span>
+                            <span class="fa fa-star "></span>
+
+                        </h5>
+                            var price = String.Format("{0:0,0 đ}", product.Variants[0].Price);
+                        <h5 class="price">
+                            @price
+
+                            
+                        </h5>
+
+                    }
+                </div>
+                            }
+                        }
+                </div>   
+    </div>
+
+    <center><h2 style="margin-top: 5rem; margin-bottom: 5rem">iPhone</h2></center>
+    <div class="container" style="margin-bottom: 5rem;">
+        <img src="Images/iphone3.png" style="float:left; margin-right: 3rem; height: 300px">
+        <img src="Images/phone2.jpg" style="margin-left: 3rem; height: 300px" />
+    </div>
+    <div class="container">
+            <div class="row">
+                    @foreach (var product in ProductService.Products)
+                        {
+                            
+                            @if (product.CategoryId == 1)
+                            {
+                               
+                <div class="col">
+                    <div>
+                        <a href="product/@product.Id">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img class="img-products" src="@product.ImageUrl">
+                            }
+                            else if (product.Images.Count > 0)
+                            {
+                                <img class="img-products" src="@product.Images[0].Data" />
+                            }
+                        </a>
+                    </div>
+                    <h6><a href="product/@product.Id">@product.Title</a></h6>
+                    @if (product.Variants != null && product.Variants.Count > 0)
+                    {
+                        <h5 class="rating">
+
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star"></span>
+
+                        </h5>
+                            var price = String.Format("{0:0,0 đ}", product.Variants[0].Price);
+                        <h5 class="price">
+                            
+                            @price
+                        </h5>
+                    }
+                </div>
+                            }
+                        }
+                </div>   
+    </div>
+
+    <center><h2 style="margin-top: 5rem; margin-bottom: 5rem">Mac</h2></center>
+    <div class="container" style="margin-bottom: 5rem;">
+        <img src="Images/Mac1.jpg" style="float:left; margin-right: 3rem; height: 300px">
+        <img src="Images/Mac2.jpg" style="margin-left: 3rem; height: 300px" />
+    </div>
+    <div class="container">
+            <div class="row">
+                    @foreach (var product in ProductService.Products)
+                        {
+                            
+                            @if (product.CategoryId == 3)
+                            {
+                               
+                <div class="col">
+                    <div>
+                        <a href="product/@product.Id">
+                            @if (!string.IsNullOrEmpty(product.ImageUrl))
+                            {
+                                <img class="img-products" src="@product.ImageUrl">
+                            }
+                            else if (product.Images.Count > 0)
+                            {
+                                <img class="img-products" src="@product.Images[0].Data" />
+                            }
+                        </a>
+                    </div>
+                    <h6><a href="product/@product.Id">@product.Title</a></h6>
+                    @if (product.Variants != null && product.Variants.Count > 0)
+                    {
+                            <h5 class="rating">
+
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star"></span>
+                                <span class="fa fa-star"></span>
+
+                            </h5>
+                            var price = String.Format("{0:0,0 đ}", product.Variants[0].Price);
+                            <h5 class="price">
+                            @price
+
+
+
+                        </h5>
+                    }
+                </div>
+                            }
+                        }
+                </div>   
+    </div>
+
+     <div class="container" style="margin-bottom: 5rem;">
+        <img src="Images/footer.png" style="width: inherit; margin-top: 3rem; margin-bottom: 10px"/>
+    </div>
+      <!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted" style="margin-top: 3rem">
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fas fa-gem me-3"></i>Green Phone
+          </h6>
+          <p>
+            Green Phone - Cửa hàng thiết bị điện tử, là sự lựa chọn hàng đầu cho người dùng. Chúng tôi luôn luôn cố gắng mang lại chất lượng sản phẩm tốt nhất cho người dùng.
+          </p>
+        </div>
+        <!-- Grid column -->
+
+        <!-- Grid column -->
+       <div class=" col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            Danh mục sản phẩm
+          </h6>
+                @foreach (var category in CategoryService.Categories)
+                {
+                    <p>
+                        <NavLink class="text-reset" href="@category.Url">
+                            @category.Name
+                        </NavLink>
+                    </p>
+                }
+        </div>
+        <!-- Grid column -->
+
+       
+
+        <!-- Grid column -->
+        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+                Green Phone
+            </h6>
+            <p><i class="fas fa-home me-3"></i>Địa chỉ: Quận 10, TP Hồ Chí Minh</p>
+            <p><i class="fas fa-envelope me-3"></i>Gmail: greenphone@gmail.com</p>
+            <p><i class="fas fa-phone me-3"></i>Số điện thoại: 0989999999</p>
+            <p><i class="fas fa-print me-3"></i>Số điện thoại: 0899999999</p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+</footer>
+<!-- Footer -->
+}
+
+
+
+@code {
+    protected override void OnInitialized()
+    {
+        ProductService.ProductsChanged += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        ProductService.ProductsChanged -= StateHasChanged;
+    }
+
+
+  
+}
